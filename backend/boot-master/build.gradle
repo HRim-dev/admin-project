@@ -1,0 +1,69 @@
+plugins {
+    id 'java-library'
+    id 'org.springframework.boot' version '3.2.5'
+    id 'io.spring.dependency-management' version '1.1.4'
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+}
+
+subprojects {
+    apply plugin: 'java-library'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter'
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.1'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.1'
+    }
+
+    sourceCompatibility = '21'
+    compileJava.options.encoding = 'UTF-8'
+
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
+
+    //Spring Boot 실행 기능이 없는 라이브러리성 모듈
+    def jarOnlyModules = [
+        'boot-common'
+    ]
+
+    if (project.name in jarOnlyModules) {
+        bootJar.enabled = false
+        jar.enabled = true // 일반 jar 파일만 생성
+    } else {
+        bootJar.enabled = true //Spring boot 실행 기능 활성화
+        jar.enabled = false
+    }
+
+    tasks.withType(Jar) {
+        archiveVersion = ''
+    }
+
+    // Spring Boot JAR 파일명에서도 version 제거
+    tasks.named('bootJar') {
+        archiveVersion = ''
+    }
+}
+
+gradle.projectsEvaluated {
+    if (project == rootProject) {
+        tasks.findByName("bootJar")?.enabled = false
+        tasks.findByName("jar")?.enabled = false
+    }
+}

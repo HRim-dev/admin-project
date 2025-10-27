@@ -1,0 +1,21 @@
+plugins {
+    id 'java-library'  // 라이브러리 모듈
+}
+
+group = 'org.hrimDev'
+version = 'unspecified'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}

@@ -1,8 +1,17 @@
-package org.hrimDev.login.dto;
+package com.hrimDev.login.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 사용자 정보 DTO
  */
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserDto {
     private Long id;          //회원 고유 번호
     private String userId;    //로그인 ID
