@@ -3,18 +3,16 @@ export const useUserStore = defineStore('user', {
   state: () => ({
     user: {
       name: '',
-      deptName: '',
       isLoggedIn: false,
     },
   }),
   actions: {
-    login(name, deptName) {
+    login(name) {
       this.user.name = name;
-      this.user.deptName = deptName;
       this.user.isLoggedIn = true;
     },
     reset() {
-      this.user = { name: '', deptName: '', isLoggedIn: false };
+      this.user = { name: '', isLoggedIn: false };
     },
   },
 });
